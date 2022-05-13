@@ -1,14 +1,14 @@
 import { Outlet } from "react-router-dom";
 import { Link } from "react-router-dom";
 import "./navigation.styles.scss";
-import { ReactComponent as CrownClothingLogo } from "../../../assets/crown.svg";
+import RustApparelsLogo from "../../../assets/logo.png";
 
 const Navigation = () => {
   return (
-    <>
+    <div className="container">
       <div className='navigation'>
         <Link className='logo-container' to='/'>
-          <CrownClothingLogo className='logo' />
+          <img src={RustApparelsLogo} className="logo" alt="" />
         </Link>
         <div className='nav-links-container'>
           <Link className='nav-link' to='/shop'>
@@ -20,7 +20,7 @@ const Navigation = () => {
         </div>
       </div>
       <Outlet />
-    </>
+    </div>
   )
 }
 export default Navigation;

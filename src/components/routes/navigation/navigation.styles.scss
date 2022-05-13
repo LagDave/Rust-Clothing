@@ -3,12 +3,15 @@
   width: 100%;
   display: flex;
   justify-content: space-between;
-  margin-bottom: 25px;
+  margin: 40px 0;
 
   .logo-container {
-    height: 100%;
-    width: 70px;
-    padding: 25px;
+    height: auto;
+    width: 120px;
+
+    .logo{
+      width: 100%;
+    }
   }
 
   .nav-links-container {
