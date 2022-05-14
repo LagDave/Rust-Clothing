@@ -1,9 +1,20 @@
 import { Outlet } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { UserContext } from "../../contexts/UserContext";
+import { useContext } from "react";
 import "./navigation.styles.scss";
 import RustApparelsLogo from "../../../assets/logo.png";
+import { signOutUser } from "../../../utils/firebase/firebase.utils";
 
 const Navigation = () => {
+
+  const { currentUser, setCurrentUser } = useContext(UserContext);
+
+  const signOutHandler = async () => {
+    await signOutUser();
+    setCurrentUser(null);
+  }
+
   return (
     <div className="container">
       <div className='navigation'>
@@ -15,7 +26,13 @@ const Navigation = () => {
             SHOP
           </Link>
           <Link className="nav-link" to="/sign-in">
-            SIGN IN
+            {
+              currentUser ? (
+                <span onClick={signOutHandler}>SIGN OUT</span>
+              ) : (
+                <span>SIGN IN</span>
+              )
+            }
           </Link>
         </div>
       </div>
