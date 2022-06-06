@@ -5,10 +5,14 @@ import { useContext } from "react";
 import "./navigation.styles.scss";
 import RustApparelsLogo from "../../../assets/logo.png";
 import { signOutUser } from "../../../utils/firebase/firebase.utils";
+import CartIcon from "../../cart-icon/CartIcon";
+import CartDropdown from "../../cart-dropdown/CartDropdown";
+import { CartDropdownContext } from "../../contexts/CartDropdownContext";
 
 const Navigation = () => {
   const { currentUser, setCurrentUser } = useContext(UserContext);
-
+  const { cartDropdownState } = useContext(CartDropdownContext);
+ 
   return (
     <div className="container">
       <div className="navigation">
@@ -26,6 +30,8 @@ const Navigation = () => {
               <span>SIGN IN</span>
             )}
           </Link>
+          <CartIcon/> 
+          { cartDropdownState && <CartDropdown/> }
         </div>
       </div>
       <Outlet />

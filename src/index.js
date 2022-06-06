@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { UserProvider } from "./components/contexts/UserContext";
 import { ProductProvider } from "./components/contexts/ProductContext";
+import { CartDropdownProvider } from "./components/contexts/CartDropdownContext";
 
 import { BrowserRouter } from "react-router-dom";
 
@@ -14,7 +15,9 @@ root.render(
   <BrowserRouter>
     <UserProvider> 
       <ProductProvider>
-        <App />
+        <CartDropdownProvider>
+          <App />
+        </CartDropdownProvider>
       </ProductProvider>
     </UserProvider>
   </BrowserRouter>
