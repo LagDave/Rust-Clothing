@@ -13,6 +13,22 @@ const addCartItem = (cartItems, productToAdd) => {
   return [...cartItems, { ...productToAdd, quantity: 1}]
 }
 
+const decreaseCartItem = (cartItems, productToRemove) => {
+  return cartItems.map(productItem => {
+    if(productItem.id === productToRemove.id){
+      if(productItem.quantity > 0){
+        productItem.quantity -= 1;
+        return productItem;
+      }
+    }
+    return productItem;
+  }).filter((productItem) => productItem.quantity > 0);
+} 
+
+const removeCartItem = (cartItems, productToRemove) => {
+  return cartItems.filter((productItem) => productItem.id !== productToRemove.id);
+}
+
 export const CartDropdownContext = createContext({
   isCartOpen: false,
   setIsCartOpen: () => {},
@@ -29,7 +45,15 @@ export const CartDropdownProvider = ({children}) => {
     setCartItems(addCartItem(cartItems, productToAdd));
   }
 
-  const value = { cartDropdownState, setCartDropdownState, addItemToCart, cartItems }; 
+  const decreaseItemOnCart = (productToRemove) => {
+    setCartItems(decreaseCartItem(cartItems, productToRemove));
+  }
+
+  const removeItemFromCart = (productToRemove) => {
+    setCartItems(removeCartItem(cartItems, productToRemove));
+  }
+
+  const value = { cartDropdownState, setCartDropdownState, addItemToCart, cartItems, decreaseItemOnCart, removeItemFromCart }; 
   
   return (
     <CartDropdownContext.Provider value={value}> { children } </CartDropdownContext.Provider>
