@@ -29,12 +29,7 @@ const removeCartItem = (cartItems, productToRemove) => {
   return cartItems.filter((productItem) => productItem.id !== productToRemove.id);
 }
 
-export const CartDropdownContext = createContext({
-  isCartOpen: false,
-  setIsCartOpen: () => {},
-  cartItems: [],
-  addItemToCart: () => {}
-});
+export const CartDropdownContext = createContext();
 
 export const CartDropdownProvider = ({children}) => {
 
@@ -53,7 +48,9 @@ export const CartDropdownProvider = ({children}) => {
     setCartItems(removeCartItem(cartItems, productToRemove));
   }
 
-  const value = { cartDropdownState, setCartDropdownState, addItemToCart, cartItems, decreaseItemOnCart, removeItemFromCart }; 
+  const total = cartItems.reduce((total, productItem) => total += productItem.price * productItem.quantity, 0);
+
+  const value = { cartDropdownState, setCartDropdownState, addItemToCart, cartItems, decreaseItemOnCart, removeItemFromCart, total }; 
   
   return (
     <CartDropdownContext.Provider value={value}> { children } </CartDropdownContext.Provider>
