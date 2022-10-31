@@ -7,7 +7,7 @@ const Checkout = () => {
 
   const {cartItems, total} = useContext(CartDropdownContext);
   return (
-    <div class="checkout-container">
+    <div className="checkout-container">
       <div className="checkout-header">
         <div className="header-block"><span>Product</span></div>
         <div className="header-block"><span>Description</span></div>

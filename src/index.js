@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { UserProvider } from "./components/contexts/UserContext";
-import { ProductProvider } from "./components/contexts/ProductContext";
+import { CategoriesProvider } from "./components/contexts/CategoriesContext";
 import { CartDropdownProvider } from "./components/contexts/CartDropdownContext";
 
 import { BrowserRouter } from "react-router-dom";
@@ -14,11 +14,11 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter>
     <UserProvider> 
-      <ProductProvider>
+      <CategoriesProvider>
         <CartDropdownProvider>
           <App />
         </CartDropdownProvider>
-      </ProductProvider>
+      </CategoriesProvider>
     </UserProvider>
   </BrowserRouter>
 );
