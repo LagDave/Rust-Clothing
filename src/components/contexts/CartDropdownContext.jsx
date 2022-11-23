@@ -1,51 +1,68 @@
-import { createContext, useState} from "react";
-
-const addCartItem = (cartItems, productToAdd) => {
-  const existingCartItem = cartItems.find(item => item.id === productToAdd.id);
-
-  if (existingCartItem) {
-    return cartItems.map((cartItem) =>
-      cartItem.id === productToAdd.id
-        ? { ...cartItem, quantity: cartItem.quantity + 1 }
-        : cartItem
-    );
-  }
-  return [...cartItems, { ...productToAdd, quantity: 1}]
-}
-
-const decreaseCartItem = (cartItems, productToRemove) => {
-  return cartItems.map(productItem => {
-    if(productItem.id === productToRemove.id){
-      if(productItem.quantity > 0){
-        productItem.quantity -= 1;
-        return productItem;
-      }
-    }
-    return productItem;
-  }).filter((productItem) => productItem.quantity > 0);
-} 
-
-const removeCartItem = (cartItems, productToRemove) => {
-  return cartItems.filter((productItem) => productItem.id !== productToRemove.id);
-}
+import { createContext, useReducer} from "react";
 
 export const CartDropdownContext = createContext();
 
+const cartReducer = (state, action) => {
+  const {type, payload} = action;
+
+  switch(type){
+
+    case 'ADD_CART_ITEM':
+      const existingCartItem = state.cartItems.find(item => item.id === payload.id);
+      if (existingCartItem) {
+        return { ...state, cartItems: state.cartItems.map((cartItem) =>
+          cartItem.id === payload.id
+            ? { ...cartItem, quantity: cartItem.quantity + 1 }
+            : cartItem
+        ) }
+      }
+      return {...state, cartItems: [ ...state.cartItems, { ...payload, quantity: 1} ] }
+    
+    case 'DECREASE_CART_ITEM':
+
+      return {...state, cartItems: state.cartItems.map(productItem => {
+        if(productItem.id === payload.id){
+          if(productItem.quantity > 0){
+            productItem.quantity -= 1;
+            return productItem;
+          }
+        }
+        return productItem;
+      }).filter((productItem) => productItem.quantity > 0)};
+
+    case 'REMOVE_CART_ITEM':
+      return {...state, cartItems: state.cartItems.filter((productItem) => productItem.id !== payload.id)}
+
+    case 'SET_CART_DROPDOWN_STATE':
+      return {
+        ...state,
+        cartDropdownState: !state.cartDropdownState
+      }
+      
+    default:
+      break;
+  }
+
+}
+
 export const CartDropdownProvider = ({children}) => {
 
-  const [cartDropdownState, setCartDropdownState] = useState(false);
-  const [cartItems, setCartItems] = useState([]);
+  const [{ cartDropdownState, cartItems }, cartReducerDispatch] = useReducer(cartReducer, {cartDropdownState: false, cartItems: []});
+  
+  const setCartDropdownState = () => {
+    cartReducerDispatch({type: 'SET_CART_DROPDOWN_STATE'})
+  }
 
   const addItemToCart =  (productToAdd) => {
-    setCartItems(addCartItem(cartItems, productToAdd));
+    cartReducerDispatch({type: 'ADD_CART_ITEM', payload: productToAdd});
   }
 
   const decreaseItemOnCart = (productToRemove) => {
-    setCartItems(decreaseCartItem(cartItems, productToRemove));
+    cartReducerDispatch({type: 'DECREASE_CART_ITEM', payload: productToRemove});
   }
 
   const removeItemFromCart = (productToRemove) => {
-    setCartItems(removeCartItem(cartItems, productToRemove));
+    cartReducerDispatch({type: 'REMOVE_CART_ITEM', payload: productToRemove});
   }
 
   const total = cartItems.reduce((total, productItem) => total += productItem.price * productItem.quantity, 0);

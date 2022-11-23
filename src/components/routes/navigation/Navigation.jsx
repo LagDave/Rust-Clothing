@@ -8,9 +8,11 @@ import { signOutUser } from "../../../utils/firebase/firebase.utils";
 import CartIcon from "../../cart-icon/CartIcon";
 import CartDropdown from "../../cart-dropdown/CartDropdown";
 import { CartDropdownContext } from "../../contexts/CartDropdownContext";
+import { selectCurrentUser  } from "../../../store/user/user.selector";
+import { useSelector } from "react-redux";
 
 const Navigation = () => {
-  const { currentUser, setCurrentUser } = useContext(UserContext);
+  const currentUser = useSelector(selectCurrentUser);
   const { cartDropdownState } = useContext(CartDropdownContext);
  
   return (
