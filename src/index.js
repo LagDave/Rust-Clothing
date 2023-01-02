@@ -1,7 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { UserProvider } from "./components/contexts/UserContext";
-import { CategoriesProvider } from "./components/contexts/CategoriesContext";
 import { CartDropdownProvider } from "./components/contexts/CartDropdownContext";
 
 import { BrowserRouter } from "react-router-dom";
@@ -17,11 +15,9 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Provider store={store}>
     <BrowserRouter>
-        <CategoriesProvider>
-          <CartDropdownProvider>
-            <App />
-          </CartDropdownProvider>
-        </CategoriesProvider>
+        <CartDropdownProvider>
+          <App />
+        </CartDropdownProvider>
     </BrowserRouter>
   </Provider>
 );
